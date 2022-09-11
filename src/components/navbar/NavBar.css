@@ -1,0 +1,46 @@
+.main-nav {
+  background: black;
+  width: 100%;
+  display: flex;
+  /* box-sizing: border-box; */
+  box-shadow: 0px 10px 12px 1px #888888;
+  /* border-radius: 0px 0px 50px 50px; */
+}
+
+.nav_logo img {
+  position: absolute;
+  display: flex;
+  width: 100px;
+  margin-top: 15px;
+
+  align-items: center;
+}
+
+.list {
+  height: 80px;
+  width: 100%;
+  padding: 20px;
+}
+ul {
+  display: flex;
+  justify-content: space-evenly;
+  font-size: 20px;
+  align-items: center;
+  margin-top: 5px;
+  margin-left: 200px;
+  margin-right: 200px;
+}
+
+/* a[href]:hover {
+  color: #3e42fa;
+} */
+
+.dash_board {
+  font-weight: bold;
+  font-size: 20px;
+  justify-content: center;
+  margin-left: auto;
+  position: absolute;
+  right: 10px;
+  top: 20px;
+}
