@@ -24,15 +24,6 @@ const NavBar = () => {
               <ul>
                 <Link
                   style={{
-                    color: pathname === "/" ? "#FF9540" : "white",
-                    textDecoration: "none",
-                  }}
-                  to="/"
-                >
-                  Home
-                </Link>
-                <Link
-                  style={{
                     color: pathname === "/mynotes" ? "#FF9540" : "white",
                     textDecoration: "none",
                   }}

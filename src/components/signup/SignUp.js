@@ -14,9 +14,9 @@ function SignUp() {
           container
           direction="column"
           spacing={2}
-          mt="100px"
+          // mt="100px"
           justifyContent="center"
-          style={{ minHeight: "50hv" }}
+          style={{ minHeight: "50hv", marginTop: "40px", marginLeft: "390px" }}
         >
           <Paper elevation={16} sx={{ padding: 3 }}>
             <div className="signup_logo">

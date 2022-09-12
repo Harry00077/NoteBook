@@ -4,7 +4,6 @@
   width: 260px;
   display: flex;
   flex-direction: column;
-  background-color: blueviolet;
   border-radius: 30px;
 }
 
@@ -16,4 +15,23 @@
   line-height: 1.875rem;
   outline: none;
   border: none;
+}
+
+.note_footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: -20px;
+}
+
+.note_footer img {
+  cursor: pointer;
+  opacity: 0;
+  transition: 300ms;
+  margin-bottom: 20px;
+}
+
+.note:hover .note_footer img {
+  opacity: 1;
 }
