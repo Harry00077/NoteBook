@@ -5,8 +5,11 @@ import MenuItem from "@mui/material/MenuItem";
 import Fade from "@mui/material/Fade";
 
 import "./Dashboard.css";
+import { useNavigate } from "react-router-dom";
 
 function Dashboard() {
+  const navigate = useNavigate();
+
   const [changeColor, setChangeColor] = React.useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -18,6 +21,11 @@ function Dashboard() {
   const handleClose = () => {
     setAnchorEl(null);
     setChangeColor(false);
+  };
+
+  const handleLogOut = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   return (
@@ -61,7 +69,7 @@ function Dashboard() {
       >
         <MenuItem onClick={handleClose}>Profile</MenuItem>
         <MenuItem onClick={handleClose}>My account</MenuItem>
-        <MenuItem onClick={handleClose}>Logout</MenuItem>
+        <MenuItem onClick={handleLogOut}>Logout</MenuItem>
       </Menu>
     </div>
   );

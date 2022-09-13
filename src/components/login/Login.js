@@ -1,5 +1,7 @@
 import React from "react";
 
+import axios from "axios";
+
 import {
   Button,
   Container,
@@ -12,7 +14,7 @@ import {
   TextField,
 } from "@mui/material";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
@@ -20,11 +22,47 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import "./Login.css";
 
 const Login = () => {
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
   const [showPassword, setShowPassword] = React.useState(false);
 
   const handlePasswordVisibility = () => setShowPassword(!showPassword);
-  const handleMouseDownPasswordVisibility = () =>
+  const handleMouseDownPasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const navigate = useNavigate();
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    if (!email || !password) {
+      return;
+    }
+    console.log(email, password);
+    try {
+      const config = {
+        Headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        `api/login`,
+        {
+          email,
+          password,
+        },
+        config
+      );
+      console.log(data);
+
+      localStorage.setItem("token", JSON.stringify(data));
+      navigate("/mynotes");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <div>
@@ -56,9 +94,14 @@ const Login = () => {
                   sx={{
                     width: 400,
                   }}
+                  value={email}
                   type="email"
                   label="Email"
                   variant="outlined"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    console.log("email", e.target.value);
+                  }}
                 />
               </Grid>
 
@@ -67,9 +110,14 @@ const Login = () => {
                   sx={{
                     width: 400,
                   }}
+                  value={password}
                   type={showPassword ? "text" : "password"}
                   label="Password"
                   variant="outlined"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    console.log("password", e.target.value);
+                  }}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end">
@@ -100,6 +148,7 @@ const Login = () => {
 
               <Grid item mt="-8px" ml="10px">
                 <Button
+                  onClick={submitHandler}
                   variant="contained"
                   size="large"
                   sx={{

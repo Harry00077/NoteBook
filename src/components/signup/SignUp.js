@@ -1,12 +1,65 @@
 import React from "react";
 
-import { Button, Container, Grid, Paper, TextField } from "@mui/material";
+import {
+  Button,
+  Container,
+  Grid,
+  IconButton,
+  InputAdornment,
+  Paper,
+  TextField,
+} from "@mui/material";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
 
-import { Link } from "react-router-dom";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 
 import "./SignUp.css";
 
-function SignUp() {
+const SignUp = () => {
+  const [name, setName] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [password, setPassword] = React.useState("");
+
+  const [showPassword, setShowPassword] = React.useState(false);
+
+  const handlePasswordVisibility = () => setShowPassword(!showPassword);
+  const handleMouseDownPasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const navigate = useNavigate();
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    if (!name || !email || !password) {
+      return;
+    }
+    console.log(name, email, password);
+    try {
+      const config = {
+        Headers: {
+          "Content-Type": "application/json",
+        },
+      };
+      const { data } = await axios.post(
+        `api/signup`,
+        {
+          name,
+          email,
+          password,
+        },
+        config
+      );
+      console.log(data);
+
+      navigate("/login");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
   return (
     <div>
       <Container maxWidth="sm">
@@ -38,24 +91,18 @@ function SignUp() {
               <Grid>
                 <TextField
                   sx={{
-                    width: 195,
+                    width: 400,
                     ml: "70px",
                   }}
                   required
+                  value={name}
                   type="name"
-                  label="First Name"
+                  label="Name"
                   variant="outlined"
-                />
-
-                <TextField
-                  sx={{
-                    width: 195,
-                    ml: "10px",
+                  onChange={(e) => {
+                    setName(e.target.value);
+                    console.log("name", e.target.value);
                   }}
-                  required
-                  type="name"
-                  label="Last Name"
-                  variant="outlined"
                 />
               </Grid>
 
@@ -66,9 +113,14 @@ function SignUp() {
                     width: 400,
                   }}
                   required
+                  value={email}
                   type="email"
                   label="Email"
                   variant="outlined"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    console.log("email", e.target.value);
+                  }}
                 />
               </Grid>
 
@@ -78,15 +130,40 @@ function SignUp() {
                     ml: "54px",
                     width: 400,
                   }}
+                  type={showPassword ? "text" : "password"}
                   required
-                  type="password"
+                  value={password}
+                  // type="password"
                   label="Password"
                   variant="outlined"
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    console.log("Password", e.target.value);
+                  }}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handlePasswordVisibility}
+                          onMouseDown={handleMouseDownPasswordVisibility}
+                          edge="end"
+                        >
+                          {showPassword ? (
+                            <VisibilityOffIcon />
+                          ) : (
+                            <VisibilityIcon />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
                 />
               </Grid>
 
               <Grid item mt="-8px">
                 <Button
+                  onClick={submitHandler}
                   variant="contained"
                   size="large"
                   sx={{
@@ -114,6 +191,6 @@ function SignUp() {
       </Container>
     </div>
   );
-}
+};
 
 export default SignUp;

@@ -4,9 +4,9 @@ const generateToken = require("../config/generateToken");
 // const jwt = require("jsonwebtoken");
 
 const registerUser = async (req, res) => {
-  const { firstname, lastname, email, password } = req.body;
+  const { name, email, password } = req.body;
 
-  if (!firstname || !lastname || !email || !password) {
+  if (!name || !email || !password) {
     console.log(`Please Enter all the Feilds`);
     return res.status(400).json({ message: "Please Enter all the Feilds" });
   }
@@ -19,16 +19,14 @@ const registerUser = async (req, res) => {
   }
 
   const user = await User.create({
-    firstname,
-    lastname,
+    name,
     email,
     password,
   });
 
   if (user) {
     res.status(201).json({
-      firstname: user.firstname,
-      lastname: user.lastname,
+      name: user.name,
       email: user.email,
       token: generateToken(user._id),
     });

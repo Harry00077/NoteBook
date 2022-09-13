@@ -1,9 +1,6 @@
 const checkingSignUpData = (req, res, next) => {
-  if (!req.body.firstname) {
+  if (!req.body.name) {
     res.status(400).json({ message: "First Name is Required" });
-  }
-  if (!req.body.lastname) {
-    res.status(400).json({ message: "Last Name is Required" });
   }
   if (!req.body.email) {
     res.status(400).json({ message: "Email is Required" });
