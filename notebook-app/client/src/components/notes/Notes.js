@@ -1,11 +1,52 @@
 import React from "react";
 
 import "./Notes.css";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-let timer = 500,
-  timeout;
+const userinfo = JSON.parse(localStorage.getItem("token"));
+const baseUrl = "/api/mynotes";
+const Notes = (props) => {
+  const [title, setTitle] = React.useState("");
+  const [text, setText] = React.useState("");
 
-function Notes(props) {
+  const navigate = useNavigate();
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+
+    if (!title || !text) {
+      return;
+    }
+    try {
+      const config = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${userinfo}`,
+        },
+      };
+
+      const { data } = await axios
+        .post(
+          `${baseUrl}`,
+          {
+            title,
+            text,
+          },
+
+          config
+        )
+        .then((res) => res.data);
+      console.log(data);
+
+      // localStorage.setItem("token", JSON.stringify(data));
+      // navigate("/mynotes");
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
   const formatDate = (value) => {
     if (!value) return "";
     const date = new Date(value);
@@ -38,24 +79,36 @@ function Notes(props) {
 
     return `${hrs}:${min} ${ampm} ${day} ${month}`;
   };
-  const deBounce = (func) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(func, timer);
-  };
-
-  const updateText = (text, id) => {
-    deBounce(() => props.updateText(text, id));
-  };
 
   return (
     <div className="note" style={{ backgroundColor: props.notes.color }}>
+      <div className="note_img">
+        <img src="./images/edit.png" alt="EDIT" />
+      </div>
+      <textarea
+        className="note_title"
+        defaultValue={text}
+        onChange={(e) => {
+          setTitle(e.target.value);
+          console.log("Title", e.target.value);
+        }}
+      />
       <textarea
         className="note_text"
-        defaultValue={props.notes.text}
-        onChange={(event) => updateText(event.target.value, props.notes.id)}
+        defaultValue={text}
+        onChange={(e) => {
+          setText(e.target.value);
+          console.log("Text", e.target.value);
+        }}
       />
       <div className="note_footer">
         <p>{formatDate(props.notes.time)}</p>
+        <img
+          className="img_create"
+          src="./images/create.png"
+          alt="CREATE"
+          onClick={submitHandler}
+        />
         <img
           src="./images/delete.png"
           alt="DELETE"
@@ -64,6 +117,6 @@ function Notes(props) {
       </div>
     </div>
   );
-}
+};
 
 export default Notes;
