@@ -1,49 +1,51 @@
 import React from "react";
 
 import "./Notes.css";
-import axios from "axios";
+// import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const userinfo = JSON.parse(localStorage.getItem("token"));
-const baseUrl = "/api/mynotes";
+// const userinfo = JSON.parse(localStorage.getItem("token"));
+// const baseUrl = "/api/mynotes";
 const Notes = (props) => {
   const [title, setTitle] = React.useState("");
   const [text, setText] = React.useState("");
 
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
     if (!title || !text) {
+      alert("Please Enter Details Correctly!");
       return;
     }
+
+    const token = localStorage.getItem("token");
+
+    const formData = new FormData();
+
+    formData.append("title", title);
+    formData.append("text", text);
+
     try {
-      const config = {
+      const url = "http://localhost:4000/api/mynotes";
+
+      const response = await fetch(url, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${userinfo}`,
+          auth_token: token,
         },
-      };
+        body: formData,
+      });
 
-      const { data } = await axios
-        .post(
-          `${baseUrl}`,
-          {
-            title,
-            text,
-          },
+      await response.json();
 
-          config
-        )
-        .then((res) => res.data);
-      console.log(data);
-
-      // localStorage.setItem("token", JSON.stringify(data));
-      // navigate("/mynotes");
+      if (!response.ok) {
+        alert("Server Crash While Creating New Note!");
+        return;
+      }
     } catch (error) {
-      console.log(error.message);
+      console.loge(error);
     }
   };
 
@@ -90,7 +92,6 @@ const Notes = (props) => {
         defaultValue={text}
         onChange={(e) => {
           setTitle(e.target.value);
-          console.log("Title", e.target.value);
         }}
       />
       <textarea
@@ -98,7 +99,6 @@ const Notes = (props) => {
         defaultValue={text}
         onChange={(e) => {
           setText(e.target.value);
-          console.log("Text", e.target.value);
         }}
       />
       <div className="note_footer">

@@ -30,7 +30,7 @@ const checkingLogInData = (req, res, next) => {
 
 const fetchUser = (req, res, next) => {
   // Get user from jwt token and add id to req object
-  const token = req.headers["auth-token"];
+  const token = req.headers["auth_token"];
 
   try {
     const data = jwt.verify(token, process.env.JWT_SECRET);
