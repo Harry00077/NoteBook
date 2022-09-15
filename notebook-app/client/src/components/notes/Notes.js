@@ -1,8 +1,12 @@
 import React from "react";
 import "./Notes.css";
 
+import { useNavigate } from "react-router-dom";
+
 const Notes = (props) => {
-  // const [notes, setNotes] = React.useState([]);
+  const navigate = useNavigate();
+
+  const { _id } = props.notes;
   const [title, setTitle] = React.useState(props.notes?.title || "");
   const [text, setText] = React.useState(props.notes?.text || "");
 
@@ -17,8 +21,6 @@ const Notes = (props) => {
     const token = localStorage.getItem("token");
 
     try {
-      // const url = "http://localhost:4000/api/mynotes";
-
       const response = await fetch("http://localhost:4000/api/mynotes", {
         method: "POST",
         headers: {
@@ -31,7 +33,6 @@ const Notes = (props) => {
           color: props.notes.color,
           time: props.notes.time,
         }),
-        // body: formData,
       });
 
       await response.json();
@@ -43,6 +44,25 @@ const Notes = (props) => {
     } catch (error) {
       console.log(error.message);
     }
+    window.location.reload();
+  };
+
+  const deleteHandler = async () => {
+    console.log("hello");
+    const token = localStorage.getItem("token");
+
+    const config = {
+      method: "DELETE",
+      headers: {
+        auth_token: JSON.parse(token).token,
+      },
+    };
+
+    await fetch(`http://localhost:4000/api/mynotes/${_id}`, config, {
+      method: "delete",
+    }).then(() => console.log("ID Of Deleted Note Is", _id));
+    window.location.reload();
+    navigate("/features");
   };
 
   const formatDate = (value) => {
@@ -105,11 +125,7 @@ const Notes = (props) => {
           alt="CREATE"
           onClick={submitHandler}
         />
-        <img
-          src="./images/delete.png"
-          alt="DELETE"
-          onClick={() => props.deleteNote(props.notes.id)}
-        />
+        <img src="./images/delete.png" alt="DELETE" onClick={deleteHandler} />
       </div>
     </div>
   );

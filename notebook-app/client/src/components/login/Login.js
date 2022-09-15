@@ -58,6 +58,7 @@ const Login = () => {
       console.log(data);
 
       localStorage.setItem("token", JSON.stringify(data));
+      console.log(email);
       navigate("/mynotes");
     } catch (error) {
       console.log(error.message);

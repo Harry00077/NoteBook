@@ -10,7 +10,6 @@ import SideBar from "./components/sidebar/SideBar";
 import MyNotes from "./components/notes/Notes";
 import Features from "./components/features/Features";
 import NotesContainer from "./components/notescontainer/NotesContainer";
-
 import "./App.css";
 
 function App() {
@@ -61,7 +60,7 @@ function App() {
       <div style={{ display: "flex", paddingTop: "30px" }}>
         <SideBar addNote={addNote} />
         <Routes>
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route
             path="/mynotes"

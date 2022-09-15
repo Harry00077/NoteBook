@@ -12,6 +12,6 @@ const router = express.Router();
 router.get("/mynotes", fetchUser, fetchAllNotes);
 router.post("/mynotes", fetchUser, validateNewNote, createNote);
 router.put("/mynotes/:id", fetchUser, validateNewNote, updateNote);
-router.delete("/mynotes/:id", fetchUser, validateNewNote, deleteNote);
+router.delete("/mynotes/:id", fetchUser, deleteNote);
 
 module.exports = router;

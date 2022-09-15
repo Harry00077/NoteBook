@@ -8,8 +8,7 @@ import "./NavBar.css";
 const NavBar = () => {
   const { pathname } = useLocation();
 
-  const showNavBar =
-    pathname === "/login" || pathname === "/signup" ? false : true;
+  const showNavBar = pathname === "/" || pathname === "/signup" ? false : true;
 
   return (
     <>

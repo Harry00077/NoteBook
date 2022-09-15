@@ -22,7 +22,7 @@ function NotesContainer(props) {
       <h2>Notes</h2>
       <div className="note-container_notes">
         {notes?.length > 0 ? (
-          notes.map((item) => <Notes key={item.id} notes={item} />)
+          notes.map((item, index) => <Notes key={item.id} notes={item} />)
         ) : (
           <h3
             style={{
