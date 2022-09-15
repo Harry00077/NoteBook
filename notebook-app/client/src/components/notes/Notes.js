@@ -1,16 +1,10 @@
 import React from "react";
-
 import "./Notes.css";
-// import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
-// const userinfo = JSON.parse(localStorage.getItem("token"));
-// const baseUrl = "/api/mynotes";
 const Notes = (props) => {
-  const [title, setTitle] = React.useState("");
-  const [text, setText] = React.useState("");
-
-  // const navigate = useNavigate();
+  // const [notes, setNotes] = React.useState([]);
+  const [title, setTitle] = React.useState(props.notes?.title || "");
+  const [text, setText] = React.useState(props.notes?.text || "");
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -22,21 +16,22 @@ const Notes = (props) => {
 
     const token = localStorage.getItem("token");
 
-    const formData = new FormData();
-
-    formData.append("title", title);
-    formData.append("text", text);
-
     try {
-      const url = "http://localhost:4000/api/mynotes";
+      // const url = "http://localhost:4000/api/mynotes";
 
-      const response = await fetch(url, {
+      const response = await fetch("http://localhost:4000/api/mynotes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          auth_token: token,
+          auth_token: JSON.parse(token).token,
         },
-        body: formData,
+        body: JSON.stringify({
+          title,
+          text,
+          color: props.notes.color,
+          time: props.notes.time,
+        }),
+        // body: formData,
       });
 
       await response.json();
@@ -46,7 +41,7 @@ const Notes = (props) => {
         return;
       }
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
 
@@ -90,14 +85,14 @@ const Notes = (props) => {
       </div>
       <textarea
         className="note_title"
-        defaultValue={text}
+        value={title}
         onChange={(e) => {
           setTitle(e.target.value);
         }}
       />
       <textarea
         className="note_text"
-        defaultValue={text}
+        value={text}
         onChange={(e) => {
           setText(e.target.value);
         }}

@@ -11,6 +11,13 @@ const notesSchema = Schema(
       type: String,
       required: true,
     },
+    color: {
+      type: String,
+      required: true,
+    },
+    time: {
+      type: String,
+    },
     user: {
       type: Schema.Types.ObjectId,
       required: true,

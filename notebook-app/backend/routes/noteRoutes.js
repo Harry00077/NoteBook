@@ -9,7 +9,7 @@ const { fetchUser, validateNewNote } = require("../middleware/middleware");
 
 const router = express.Router();
 
-router.get("/mynotes/:id", fetchUser, validateNewNote, fetchAllNotes);
+router.get("/mynotes", fetchUser, fetchAllNotes);
 router.post("/mynotes", fetchUser, validateNewNote, createNote);
 router.put("/mynotes/:id", fetchUser, validateNewNote, updateNote);
 router.delete("/mynotes/:id", fetchUser, validateNewNote, deleteNote);

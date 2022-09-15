@@ -52,6 +52,14 @@ const validateNewNote = (req, res, next) => {
     res.status(400).json({ message: " Text Data is Required" });
     return;
   }
+  if (!req.body.color) {
+    res.status(400).json({ message: " Color is Required" });
+    return;
+  }
+  // if (!req.body.time) {
+  //   res.status(400).json({ message: " Time is Required" });
+  //   return;
+  // }
   next();
 };
 

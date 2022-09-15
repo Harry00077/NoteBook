@@ -9,13 +9,39 @@ import SideBar from "./components/sidebar/SideBar";
 
 import MyNotes from "./components/notes/Notes";
 import Features from "./components/features/Features";
-import AboutUs from "./components/aboutus/AboutUs";
 import NotesContainer from "./components/notescontainer/NotesContainer";
 
 import "./App.css";
 
 function App() {
   const [notes, setNotes] = React.useState([]);
+
+  const fetchAllNotes = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const response = await fetch("http://localhost:4000/api/mynotes", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          auth_token: JSON.parse(token).token,
+        },
+      });
+      if (!response.ok) {
+        return;
+      }
+
+      const allNotes = await response.json();
+
+      setNotes(allNotes);
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchAllNotes();
+  }, []);
 
   const addNote = (color) => {
     const tempNotes = [...notes];
@@ -42,7 +68,6 @@ function App() {
             element={((<MyNotes />), (<NotesContainer notes={notes} />))}
           />
           <Route path="/features" element={<Features />} />
-          <Route path="/aboutus" element={<AboutUs />} />
         </Routes>
       </div>
     </>

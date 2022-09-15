@@ -7,11 +7,13 @@ const fetchAllNotes = async (req, res) => {
 };
 
 const createNote = async (req, res) => {
-  const { title, text } = req.body;
+  const { title, text, color, time } = req.body;
   const notes = new Notes({
     title,
     text,
     user: req.user,
+    time,
+    color,
   });
   const resp = await notes.save();
   res.status(201).json(resp);

@@ -40,15 +40,6 @@ const NavBar = () => {
                 >
                   Features
                 </Link>
-                <Link
-                  style={{
-                    color: pathname === "/aboutus" ? "#FF9540" : "white",
-                    textDecoration: "none",
-                  }}
-                  to="/aboutus"
-                >
-                  About Us
-                </Link>
               </ul>
               <div className="dash_board">
                 <Dashboard />
