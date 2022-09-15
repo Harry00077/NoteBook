@@ -33,6 +33,7 @@ const Notes = (props) => {
       const response = await fetch(url, {
         method: "POST",
         headers: {
+          "Content-Type": "application/json",
           auth_token: token,
         },
         body: formData,
@@ -45,7 +46,7 @@ const Notes = (props) => {
         return;
       }
     } catch (error) {
-      console.loge(error);
+      console.log(error);
     }
   };
 
