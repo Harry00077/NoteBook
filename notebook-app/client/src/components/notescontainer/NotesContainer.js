@@ -21,9 +21,23 @@ function NotesContainer(props) {
     <div className="note-container">
       <h2>Notes</h2>
       <div className="note-container_notes">
-        {notes?.length > 0 ? (
+        {/* {notes?.length > 0 ? (
           notes.map((item, index) => <Notes key={item.id} notes={item} />)
         ) : (
+          <h3
+            style={{
+              color: "orange",
+              fontSize: "20px",
+              paddingTop: "20px",
+              fontWeight: 500,
+            }}
+          >
+            Currently You Have No Notes
+          </h3>
+        )} */}
+        {notes &&
+          notes.map((item, index) => <Notes key={item.id} notes={item} />)}
+        {notes.length === 0 && (
           <h3
             style={{
               color: "orange",

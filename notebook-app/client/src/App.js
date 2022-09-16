@@ -3,13 +3,15 @@ import { Routes, Route } from "react-router-dom";
 
 import Login from "./components/login/Login";
 import SignUp from "./components/signup/SignUp";
-
 import NavBar from "./components/navbar/NavBar";
 import SideBar from "./components/sidebar/SideBar";
-
 import MyNotes from "./components/notes/Notes";
 import Features from "./components/features/Features";
 import NotesContainer from "./components/notescontainer/NotesContainer";
+
+import AuthProtectedRoute from "./components/protectedroute/AuthProtectedRoute";
+import LoginRoute from "./components/protectedroute/LoginRoute";
+
 import "./App.css";
 
 function App() {
@@ -60,13 +62,27 @@ function App() {
       <div style={{ display: "flex", paddingTop: "30px" }}>
         <SideBar addNote={addNote} />
         <Routes>
-          <Route path="/" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <LoginRoute>
+                <Login />
+              </LoginRoute>
+            }
+          />
           <Route path="/signup" element={<SignUp />} />
           <Route
             path="/mynotes"
             element={((<MyNotes />), (<NotesContainer notes={notes} />))}
           />
-          <Route path="/features" element={<Features />} />
+          <Route
+            path="/features"
+            element={
+              <AuthProtectedRoute>
+                <Features />
+              </AuthProtectedRoute>
+            }
+          />
         </Routes>
       </div>
     </>

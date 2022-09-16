@@ -40,7 +40,6 @@ const Login = () => {
     if (!email || !password) {
       return;
     }
-    console.log(email, password);
     try {
       const config = {
         Headers: {
@@ -58,8 +57,7 @@ const Login = () => {
       console.log(data);
 
       localStorage.setItem("token", JSON.stringify(data));
-      console.log(email);
-      navigate("/mynotes");
+      navigate("/features");
     } catch (error) {
       console.log(error.message);
     }
